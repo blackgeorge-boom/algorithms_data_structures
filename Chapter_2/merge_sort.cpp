@@ -5,13 +5,10 @@
 #include <iostream>
 #include <climits>
 #include <cmath>
+#include <ctime>
+#include "my_functions.h"
 
 using namespace std;
-
-void print_array(int A[], int len) {
-    for (auto i = 0; i < len; i++) cout << A[i] << ' ';
-    cout << '\n';
-}
 
 void merge(int A[], int p, int q, int r) {
 
@@ -54,7 +51,13 @@ int main () {
     cout << "Original array\n";
     print_array(A, 10);
 
+    std::clock_t start;
+
+    start = std::clock();
+
     mergesort(A, 0, 9);
+
+    std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
 
     cout << "Final array\n";
     print_array(A, 10);
