@@ -14,9 +14,10 @@ public:
     ~Vertex() = default;
 
     char name() const { return n; }
-    std::vector<std::pair<Vertex, int>> const adjacents() { return adj; }
+    std::vector<std::pair<Vertex, int>> const adjacents() const { return adj; }
 
-    void add_edge(Vertex v, int w);
+    void add_edge(const Vertex& v, int w);
+    void add_edge_u(Vertex& v, int w);
     void print_adj() const;
 };
 
@@ -37,9 +38,41 @@ void Vertex::print_adj() const {
     std::cout << '\n';
 }
 
-void Vertex::add_edge(Vertex v, int w) {
-    std::pair<Vertex, int> edge1 {v, w};
-    adj.push_back(edge1);
+void Vertex::add_edge(const Vertex& v, int w) {
+    std::pair<Vertex, int> edge {v, w};
+    adj.push_back(edge);
+}
+
+void Vertex::add_edge_u(Vertex& v, int w) {
+    std::pair<Vertex, int> edge {v, w};
+    adj.push_back(edge);
+    v.add_edge(*this, w);
+}
+
+class Graph {
+    std::vector<Vertex> vv;
+public:
+    Graph() = default;
+
+    std::vector<Vertex> const vertices() { return vv; }
+
+    void add_vertex(const Vertex& v) { vv.push_back(v); }
+    void print_vertices() const;
+};
+
+void Graph::print_vertices() const {
+    for (auto& i : vv) i.print_adj();
+}
+
+Graph reverse_graph(Graph& g) {
+    Graph rev_g;
+    for (auto& u : g.vertices())
+        rev_g.add_vertex(Vertex(u.name()));
+    for (auto& u : g.vertices()) {
+        for (auto& v : u.adjacents()) {
+
+        }
+    }
 }
 
 int main() {
@@ -47,8 +80,13 @@ int main() {
     Vertex v {'v'};
 
     std::cout << u;
-    u.add_edge(v, 3);
+    u.add_edge_u(v, 3);
     u.print_adj();
     v.print_adj();
+
+    Graph g;
+    g.add_vertex(u);
+    g.add_vertex(v);
+    g.print_vertices();
 
 }
