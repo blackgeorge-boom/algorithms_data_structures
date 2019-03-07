@@ -7,26 +7,11 @@
 #include <boost/range/combine.hpp>
 #include <boost/tuple/tuple.hpp>
 
-class Vertex {
-    char n;
-    std::vector<std::pair<Vertex, int>> adj;
-public:
-    Vertex(): n{'0'}, adj{} {};
-    explicit Vertex(char c): n{c}, adj{} {};
-    ~Vertex() = default;
+#include "adj_list.h"
 
-    char name() const { return n; }
-    std::vector<std::pair<Vertex, int>> adjacents() { return adj; }
-
-    void add_edge(const Vertex& v, int w);
-    void add_edge_u(Vertex& v, int w);
-    void print_adj() const;
-};
-
-std::ostream& operator<<(std::ostream& os, const Vertex& u)
-{
-    return os << "{\'" << u.name() << "\'} \n";
-}
+/*
+ * Implementation of Vertex class methods
+ */
 
 void Vertex::print_adj() const {
     Vertex v;
@@ -35,7 +20,7 @@ void Vertex::print_adj() const {
     for (auto& i : adj) {
         v = i.first;
         w = i.second;
-        std::cout << "(" << v.name() << ", " << w << ") ";
+        std::cout << "(" << v << ", " << w << ") ";
     }
     std::cout << '\n';
 }
@@ -51,22 +36,21 @@ void Vertex::add_edge_u(Vertex& v, int w) {
     v.add_edge(*this, w);
 }
 
-class Graph {
-    std::vector<Vertex> vv;
-public:
-    Graph() = default;
+std::ostream& operator<<(std::ostream& os, const Vertex& u)
+{
+    return os << u.name();
+}
 
-    std::vector<Vertex> const vertices() { return vv; }
-
-    void add_vertex(const Vertex& v) { vv.push_back(v); }
-    void print_vertices() const;
-};
+/*
+ * Implementation of Graph class methods
+ */
 
 void Graph::print_vertices() const {
     for (auto& i : vv) i.print_adj();
 }
 
 // TODO:
+/*
 void reverse_graph(Graph& g) {
     Graph rev_g;
     for (auto& u : g.vertices())
@@ -83,19 +67,42 @@ void mult_to_undir(Graph& g) {
         }
     }
 }
+*/
 
-int main() {
-    Vertex u {'u'};
-    Vertex v {'v'};
-
-    std::cout << u;
-    u.add_edge_u(v, 3);
-    u.print_adj();
-    v.print_adj();
-
-    Graph g;
-    g.add_vertex(u);
-    g.add_vertex(v);
-    g.print_vertices();
-
+BFS_Vertex::BFS_Vertex(char c) : Vertex(c) {
+    col = Color::white;
+    dist = 0;
+    pred = '0';
 }
+
+void BFS_Vertex::print_adj() const {
+    BFS_Vertex v;
+    int w;
+    std::cout << "Neighbors of " << n << ": \n";
+    for (auto& i : adj) {
+        v = i.first;
+        w = i.second;
+        std::cout << "(" << v << ", " << w << ") ";
+    }
+    std::cout << '\n';
+}
+
+std::ostream& operator<<(std::ostream& os, const BFS_Vertex& u)
+{
+    os << u.name() << ", ";
+    switch (u.color()) {
+        case Color::white:
+            os << "white";
+            break;
+        case Color::grey:
+            os << "GREY";
+            break;
+        case Color::black:
+            os << "BLACK";
+            break;
+        default:
+            os << "Something's wrong";
+    }
+    return os << ", " << u.distance() << ", " << u.predecessor();
+}
+

@@ -9,5 +9,5 @@ add_executable(clrs_3 Chapter_2/2.3-7.cpp)
 add_executable(clrs_4 Chapter_2/anti_orderings.cpp)
 add_executable(clrs_5 Chapter_15/cut_stick.cpp)
 add_executable(clrs_6 Chapter_15/matrix_multiplication.cpp)
-add_executable(graphs_1 graphs/Chapter_21/adj_list.cpp)
+add_executable(graphs_1 graphs/Chapter_21/main.cpp graphs/Chapter_21/adj_list.cpp graphs/Chapter_21/adj_list.h)
 
