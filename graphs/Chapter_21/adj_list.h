@@ -21,7 +21,8 @@ public:
 
     void add_edge(const Vertex& v, int w);
     void add_edge_u(Vertex& v, int w);
-    void print_adj() const;
+
+    virtual void print_adj() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Vertex& u);
@@ -43,6 +44,7 @@ class BFS_Vertex: public Vertex {
     Color col;
     int dist;
     char pred;
+    std::vector<std::pair<BFS_Vertex, int>> adj;
 public:
     BFS_Vertex(): col{Color::white}, dist{0}, pred{} {};
     BFS_Vertex(char c);
