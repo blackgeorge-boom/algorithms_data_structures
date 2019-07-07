@@ -4,14 +4,14 @@
 
 #include <iostream>
 
-int** matrix_multiplication(int A[][3], int arow, int acol, int B[][3], int brow, int bcol) {
-
+int** matrix_multiplication(int A[][3], int arow, int acol, int B[][3], int brow, int bcol)
+{
     if (acol != brow) {
         std::cout << "Wrong dimensions\n";
         return nullptr;
     }
 
-    int** C = 0;
+    int** C = nullptr;
     C = new int*[arow];
 
     for (auto i = 0; i < arow; ++i) {
@@ -26,13 +26,12 @@ int** matrix_multiplication(int A[][3], int arow, int acol, int B[][3], int brow
                 C[i][j] += A[i][k] * B[k][j];
             }
         }
-
     }
     return C;
 }
 
-int main() {
-
+int main()
+{
     // Simple matrices
     int a[3][3] = {
             {1, 0, 0},
@@ -46,7 +45,7 @@ int main() {
             {0, 0, 1}
     };
 
-    int** c = 0;
+    int** c = nullptr;
 
     c = matrix_multiplication(a, 3, 3, b, 3, 3);
 
